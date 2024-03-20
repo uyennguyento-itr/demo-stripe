@@ -32,7 +32,8 @@ const STRIPE_KEY =
   'pk_test_51OvxlwRtTkO9QfIE3t6iHRAmjE71H1pa2RnfMM9NP4wMZwJNoB644xDs2xTP6NyB8NJJ7yWta63FMdYdqt6zG0bm007K6eKZsj';
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
-  const {initPaymentSheet, presentPaymentSheet} = useStripe();
+  const {initPaymentSheet, presentPaymentSheet, resetPaymentSheetCustomer} =
+    useStripe();
   const {isPlatformPaySupported, confirmPlatformPayPayment} = usePlatformPay();
   const {confirmPayment, loading} = useConfirmPayment();
   const backgroundStyle = {
@@ -104,6 +105,10 @@ function App(): JSX.Element {
     }
   };
 
+  const logout = async () => {
+    await resetPaymentSheetCustomer();
+  };
+
   /////
   useEffect(() => {
     (async function () {
@@ -148,7 +153,7 @@ function App(): JSX.Element {
           <TouchableOpacity onPress={checkoutAlipay} style={styles.btn}>
             <Text style={{color: Colors.white}}>Alipay</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => {}} style={styles.btn}>
+          <TouchableOpacity onPress={logout} style={styles.btn}>
             <Text style={{color: Colors.white}}>Logout</Text>
           </TouchableOpacity>
         </View>
